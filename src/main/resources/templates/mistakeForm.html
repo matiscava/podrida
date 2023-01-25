@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <div th:replace="~{/components/style}"></div>
+    <title>Cargar Mistake</title>
+</head>
+<body>
+<div class="container text-center">
+    <div class="row">
+        <form th:action="@{/mistake/new}" th:method="post" th:object="${mistakeDto}">
+            <input type="hidden" name="id" th:value="${mistakeDto.id}" th:field="${mistakeDto.id}">
+            <label for="mistakeName">Nombre del mistake:</label>
+            <input type="text" name="mistake" th:value="${mistakeDto.mistake}" id="mistakeName" required autofocus>
+            <label>¿Cuántos puntos resta?</label>
+            <input type="radio" name="points" id="mistakePointsTen" value="10" th:checked="${mistakeDto.points == 10 ? true : false}">
+            <label for="mistakePointsTen">10 puntos</label>
+            <input type="radio" name="points" id="mistakePointsTwenty" value="20" th:checked="${mistakeDto.points == 20 ? true : false}">
+            <label for="mistakePointsTwenty">20 puntos</label>
+            <button type="submit" class="btn btn-primary" >Cargar</button>
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

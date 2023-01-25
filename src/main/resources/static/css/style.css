@@ -1,0 +1,126 @@
+@font-face {
+    font-family: 'miquela-stock';
+    src:  url('fonts/miquela-stock.eot?kb1six');
+    src:  url('fonts/miquela-stock.eot?kb1six#iefix') format('embedded-opentype'),
+    url('fonts/miquela-stock.ttf?kb1six') format('truetype'),
+    url('fonts/miquela-stock.woff?kb1six') format('woff'),
+    url('fonts/miquela-stock.svg?kb1six#miquela-stock') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+    /* use !important to prevent issues with browser extensions that change fonts */
+    font-family: 'miquela-stock' !important;
+    speak: never;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-chevron-thin-down:before {
+    content: "\e901";
+}
+.icon-dots-three-horizontal:before {
+    content: "\e902";
+}
+.icon-triangle-down:before {
+    content: "\e903";
+}
+.icon-pencil1:before {
+    content: "\e904";
+}
+.icon-cancel:before {
+    content: "\e900";
+}
+.icon-pencil:before {
+    content: "\e905";
+}
+.icon-pencil2:before {
+    content: "\e906";
+}
+.icon-camera:before {
+    content: "\e90f";
+}
+.icon-bell:before {
+    content: "\e951";
+}
+.icon-user:before {
+    content: "\e971";
+}
+.icon-file-excel:before {
+    content: "\eae2";
+}
+.icon-chevron-thin-down:before {
+    content: "\e901";
+}
+.icon-dots-three-horizontal:before {
+    content: "\e902";
+}
+.icon-triangle-down:before {
+    content: "\e903";
+}
+.icon-pencil1:before {
+    content: "\e904";
+}
+.icon-cancel:before {
+    content: "\e900";
+}
+.icon-pencil:before {
+    content: "\e905";
+}
+.icon-pencil2:before {
+    content: "\e906";
+}
+.icon-camera:before {
+    content: "\e90f";
+}
+.icon-bell:before {
+    content: "\e951";
+}
+.icon-user:before {
+    content: "\e971";
+}
+a.text-white {
+    text-decoration: none;
+}
+
+.table-title{
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly
+}
+.table-title p {
+    margin: 0;
+}
+.table-title a {
+    text-decoration: none;
+    margin: 0;
+    color: white;
+    transition: .3s;
+}
+.table-title a:hover {
+    color: aqua;
+}
+.table-title span {
+    margin-left: 10px;
+}
+
+.container-flex {
+    display: flex;
+    max-width: 400px;
+    margin: 10px auto;
+    justify-content: space-between;
+}
+.btn-excel {
+    width: fit-content;
+    margin: 0 auto;
+    margin-bottom: 10px;
+}

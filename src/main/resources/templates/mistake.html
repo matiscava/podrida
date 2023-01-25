@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <div th:replace="~{/components/style}"></div>
+  <title>It's a mistake!</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-primary">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         th:href="@{/}">Inicio</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         th:href="@{/game/getAll}">Juegos Guardados</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         th:href="@{'/game/'+${playerList.get(0).gameId}}">Juego</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         th:href="@{'/game/'+${playerList.get(0).gameId}+'/points'}">Puntos</a>
+    </li>
+  </ul>
+</nav>
+<div class="container text-center">
+  <h1>It's a Mistake!</h1>
+  <form th:action="@{/mistake/player}" th:method="post" th:object="${mistakeDto}" id="mistakeForm">
+    <input type="hidden" name="gameId" th:value="${mistakeDto.gameId}">
+    <div class="form-group">
+      <label for="handNumber">Mano número:</label>
+      <input type="number" name="handNumber" id="handNumber" max="21" min="1" th:value="${mistakeDto.handNumber}" required>
+    </div>
+    <div class="form-group">
+      <label for="inputJugador">Seleccione el Jugador hizo Mistake: </label>
+      <select name="_playerId" th:field="*{playerId}" id="inputJugador" class="form-control" required>
+        <option th:each="p : ${playerList}" th:value="${p.id}" th:text="${p.name}"></option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="inputMistake">Que Mistake hizo:</label>
+      <select name="_mistakeId" th:field="*{mistakeId}" id="inputMistake" class="form-control" required>
+        <option th:each="m : ${mistakeList}" th:value="${m.id}" th:text="${m.mistake}+' - resta '+${m.points}+' puntos'"></option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label >¿Se reinicia la mano?</label>
+      <input type="radio" name="replayHand" id="replayTrue" value=true>
+      <label for="replayTrue">Si se reinicia</label>
+      <input type="radio" name="replayHand" id="replayFalse" value=false checked>
+      <label for="replayFalse">No se reinicia</label>
+    </div>
+    <button type="submit" id="btnSubmit" class="btn btn-primary">Cargar</button>
+  </form>
+  <button type="button" class="btn btn-secondary mt-4 mb-4">
+    <a class="text-white" th:href="@{'/mistake/create'}">
+      Cargar Mistake Nuevo
+    </a>
+  </button>
+  <button type="button" class="btn btn-secondary mt-4 mb-4">
+    <a class="text-white" th:href="@{'/game/'+${playerList.get(0).gameId}+'/mistakeList'}" th:text="'Editar Mistake del juego '+${playerList.get(0).gameId}"></a>
+  </button>
+</div>
+</body>
+</html>

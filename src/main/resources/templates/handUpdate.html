@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <div th:replace="~{/components/style}"></div>
+  <title>Edita tus cartas</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-primary">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="" th:href="@{/}">Inicio</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="@{/game/getAll}">Juegos Guardados</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="@{'/game/'+${gameDto.id}}">Juego</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="@{'/game/'+${gameDto.id}+'/points'}">Puntos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="@{'/game/'+${gameDto.id}+'/mistake'}">Mistake</a>
+    </li>
+
+  </ul>
+</nav>
+<div class="container text-center">
+  <div th:if="${gameDto.viewName == 'predict' || gameDto.viewName == 'endPredict' || gameDto.viewName == '' || gameDto.viewName == 'lastPlayer' }">
+    <h1 th:text="${hand.playerName}+' pidió '+${hand.predict}+(${hand.predict==1}?' carta':' cartas')+' en la mano '+${hand.handNumber}"></h1>
+    <form th:action="@{/hand/update}" th:method="post" th:object="${handDto}">
+      <div class="form-group">
+        <label th:text="'Seleccione la cantidad pedidas por:'"></label>
+        <th:block th:each="i: ${#numbers.sequence(0, cardLimit)}">
+          <input type="radio" name="predict" th:id="'predict-'+${i}" th:value="${i}" th:checked="${i==hand.predict}">
+          <label th:for="'predict-'+${i}" th:text="${i}+(${i==1}?' carta':' cartas')"></label>
+        </th:block>
+        <input type="hidden" name="take" th:value="${hand.take}">
+      </div>
+      <input type="hidden" name="id" th:value="${hand.id}">
+      <button type="submit" class="btn btn-primary">Siguiente</button>
+    </form>
+  </div>
+  <div th:if="${gameDto.viewName == 'endTaken' || gameDto.viewName == 'endGame'}">
+      <h1 th:text="${hand.playerName}+' pidió '+${hand.predict}+(${hand.predict==1}?' carta':' cartas')+' y se llevo '+${hand.take}+(${hand.take==1}?' carta':' cartas')+' en la mano '+${hand.handNumber}"></h1>
+      <form th:action="@{/hand/update}" th:method="post" th:object="${handDto}">
+        <div class="form-group">
+          <label th:text="'Seleccione la cantidad pedidas por:'"></label>
+          <th:block th:each="i: ${#numbers.sequence(0, cardLimit)}">
+            <input type="radio" name="predict" th:id="'predict-'+${i}" th:value="${i}" th:checked="${i==hand.predict}">
+            <label th:for="'predict-'+${i}" th:text="${i}+(${i==1}?' carta':' cartas')"></label>
+          </th:block>
+        </div>
+        <div class="form-group">
+          <label th:text="'Seleccione la cantidad llevadas por:'"></label>
+          <th:block th:each="i: ${#numbers.sequence(0, cardLimit)}">
+            <input type="radio" name="take" th:id="'take-'+${i}" th:value="${i}" th:checked="${i==hand.take}">
+            <label th:for="'take-'+${i}" th:text="${i}+(${i==1}?' carta':' cartas')"></label>
+          </th:block>
+        </div>
+        <input type="hidden" name="id" th:value="${hand.id}">
+        <input type="hidden" name="setPoints" value=true>
+        <button type="submit" class="btn btn-primary">Siguiente</button>
+      </form>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <div th:replace="~{/components/style}"></div>
+  <title>Elige tus cartas</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-primary">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="" th:href="@{/}">Inicio</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="@{/game/getAll}">Juegos Guardados</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="@{'/game/'+${game.id}+'/points'}">Puntos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="@{'/game/'+${game.id}+'/mistake'}">Mistake</a>
+    </li>
+
+  </ul>
+</nav>
+<div class="container text-center">
+  <div class="row">
+    <div th:if="${viewName == 'predict' || viewName == '' }" class="col-12">
+      <h2 th:text="'Mano '+${game.handNumber}"></h2>
+      <p th:text="'¿Cuantas cartas se lleva '+${player.name}+'?'"></p>
+      <th:block th:if="${game.getNextPlayer()!=0}">
+        <p th:text="'Ya se pidieron: '+${predicted}"></p>
+      </th:block>
+      <form th:action="@{/hand/new}" th:method="post" th:object="${handDto}">
+        <div class="form-group">
+        <label>Seleccione la cantidad: </label>
+          <th:block th:each="i: ${#numbers.sequence(0, cardLimit)}">
+              <input type="radio" name="predict" th:id="'predict-'+${i}" th:value="${i}" th:checked="${i==0}">
+              <label th:for="'predict-'+${i}" th:text="${i}+(${i==1}?' carta':' cartas')"></label>
+          </th:block>
+        </div>
+        <input type="hidden" name="id" th:value="${handId}">
+        <input type="hidden" name="playerId" th:value="${player.id}">
+        <input type="hidden" name="gameId" th:value="${game.id}">
+        <button type="submit" class="btn btn-primary" >Siguiente</button>
+      </form>
+      <form th:action="@{'/game/'+${game.id}+'/goBack'}" th:method="post">
+        <input class="btn btn-secondary mb-2 mt-2" type="submit" value="Volver">
+      </form>
+    </div>
+    <div th:if="${viewName == 'lastPlayer'}" class="col-12">
+      <h2 th:text="'Mano '+${game.handNumber}"></h2>
+      <p th:text="'Se pidieron: '+${predicted}"></p>
+      <p th:text="'¿Cuantas cartas se lleva '+${player.name}+'?'"></p>
+      <form th:action="@{/hand/new}" th:method="post" th:object="${handDto}">
+        <div class="form-group">
+          <label>Seleccione la cantidad: </label>
+          <th:block th:each="i: ${#numbers.sequence(0, cardLimit)}">
+            <th:block th:if="${i != cannotPredict}">
+              <input type="radio" name="predict" th:id="'predict-'+${i}" th:value="${i}" required>
+              <label th:for="'predict-'+${i}" th:text="${i}+(${i==1}?' carta':' cartas')"></label>
+            </th:block>
+          </th:block>
+        </div>
+        <input type="hidden" name="id" th:value="${handId}">
+        <input type="hidden" name="playerId" th:value="${player.id}">
+        <input type="hidden" name="gameId" th:value="${game.id}">
+        <button type="submit" class="btn btn-primary" >Iniciar Mano</button>
+      </form>
+      <form th:action="@{'/game/'+${game.id}+'/goBack'}" th:method="post">
+        <input class="btn btn-secondary mb-2 mt-2" type="submit" value="Volver">
+      </form>
+    </div>
+    <div th:if="${viewName == 'endPredict'}" class="col-12">
+      <h2 th:text="'Pedidas en la mano '+${game.handNumber}"></h2>
+      <form th:action="@{'/game/'+${game.id}+'/goBack'}" th:method="post">
+        <input class="btn btn-secondary mb-2 mt-2" type="submit" value="Volver">
+      </form>
+      <div class="container-flex" th:each="player : ${playerList}">
+        <h4 th:text="${player.name}+' pidió '+${player.predict}+' cartas.'"></h4>
+        <button type="button" class="btn btn-warning">
+          <a class="text-white" th:href="'/hand/edit/'+${player.handId}">
+            Editar Pedidas
+          </a>
+        </button>
+      </div>
+      <form th:method="post" th:action="@{'/game/setViewName?id='+${game.id}}" class="form-group">
+        <input type="hidden" name="viewName" value="taken">
+        <button type="submit" class="btn btn-primary" th:disabled="(${predicted == cardLimit}?true:false)">
+          Terminar mano
+        </button>
+      </form>
+    </div>
+    <div th:if="${viewName == 'taken'}" class="col-12">
+      <h2 th:text="'Mano '+${game.handNumber}+' terminada'"></h2>
+      <p th:text="${hand.playerName}+' pidió '+${hand.predict}+' cartas.'"></p>
+      <p th:text="'¿Cuantas cartas se llevó?'"></p>
+
+      <form th:action="@{/hand/take}" th:method="post" th:object="${hand}">
+        <div class="form-group">
+        <label>Seleccione la cantidad: </label>
+          <th:block th:if="${game.nextPlayer == 6}">
+            <input type="radio" name="take" th:id="'take-'+${cardLimit}" th:value="${cardLimit}" checked>
+            <label th:for="'take-'+${cardLimit}" th:text="${cardLimit}+(${cardLimit==1}?' carta':' cartas')"></label>
+          </th:block>
+          <th:block th:if="${game.nextPlayer != 6}" th:each="i: ${#numbers.sequence(0, cardLimit)}">
+              <input type="radio" name="take" th:id="'take-'+${i}" th:value="${i}" th:checked="${i==0}">
+              <label th:for="'take-'+${i}" th:text="${i}+(${i==1}?' carta':' cartas')"></label>
+          </th:block>
+        </div>
+        <input type="hidden" name="playerId" th:value="${hand.playerId}">
+        <input type="hidden" name="playerName" th:value="${hand.playerName}">
+        <input type="hidden" name="gameId" th:value="${hand.gameId}">
+        <input type="hidden" name="id" th:value="${hand.id}">
+        <button type="submit" class="btn btn-primary" th:text="${game.nextPlayer == 6}?'Terminar mano':'Siguiente'">Siguiente</button>
+      </form>
+      <form th:action="@{'/game/'+${game.id}+'/goBack'}" th:method="post">
+        <input class="btn btn-secondary mb-2 mt-2" type="submit" value="Volver">
+      </form>
+    </div>
+    <div th:if="${viewName == 'endTaken'}" class="col-12">
+      <h2 th:text="'Terminó la mano '+${game.getHandNumber()-1}"></h2>
+      <form th:action="@{'/game/'+${game.id}+'/goBack'}" th:method="post">
+        <input class="btn btn-secondary mb-2 mt-2" type="submit" value="Volver">
+      </form>
+      <table class="table table-striped-table hover">
+        <thead class="bg-primary text-white">
+        <tr>
+          <th scope="col">Jugador</th>
+          <th scope="col">Pidió</th>
+          <th scope="col">Se llevó</th>
+          <th scope="col">Puntos</th>
+          <th scope="col">Acción</th>
+        </tr>
+        </thead>
+        <tbody>
+          <tr th:each="player : ${playerList}">
+            <th scope="row" th:text="${player.name}"></th>
+            <td th:text="${player.predict}"></td>
+            <td th:text="${player.take}"></td>
+            <td th:text="${player.points}"></td>
+            <td>
+              <button type="button" class="btn btn-warning">
+                <a class="text-white" th:href="'/hand/edit/'+${player.handId}">
+                  Editar Mano
+                </a>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <form th:method="post" th:action="@{'/game/setViewName?id='+${game.id}}" class="form-group">
+        <th:block th:if="${game.getHandNumber() == 22}">
+          <input type="hidden" name="viewName" value="endGame">
+          <button type="submit" class="btn btn-warning" th:text="'Terminar Juego'" th:disabled="(${predicted == cardLimit && taken != cardLimit }?true:false)">
+          </button>
+        </th:block>
+        <th:block th:if="${game.getHandNumber() != 22}">
+        <input type="hidden" name="viewName" value="predict">
+          <button type="submit" class="btn btn-primary" th:text="'Iniciar mano '+${game.handNumber}" th:disabled="(${predicted == cardLimit || taken != cardLimit }?true:false)">
+          </button>
+        </th:block>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>

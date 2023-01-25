@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <div th:replace="~{/components/style}"></div>
+  <title th:text="'Mistakes del juego '+${gameId}"></title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-primary">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="" th:href="@{/}">Inicio</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="@{/game/getAll}">Juegos Guardados</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="@{'/game/'+${gameId}}">Juego</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="@{'/game/'+${gameId}+'/points'}">Puntos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="@{'/game/'+${gameId}+'/mistake'}">Mistake</a>
+    </li>
+
+  </ul>
+</nav>
+  <div class="container text-center">
+    <h1 th:text="'Editar los mistakes del Juego N°'+${gameId}"></h1>
+    <th:block th:if="${mistakeMade.size() == 0}">
+      <h3>No hubo Mistake hasta el momento</h3>
+    </th:block>
+    <th:block th:if="${mistakeMade.size()>0}">
+      <div th:each="player : ${mistakeMade}">
+        <h3 th:text="${player.name}+' tuvo '+${player.mistakesDtoList.size()}+(${player.mistakesDtoList.size()==1}?' error':' errores')"> </h3>
+        <th:block th:each="mistake : ${player.getMistakesDtoList()}">
+          <form th:action="@{'/mistakesMade/delete/'+${mistake.id}}" th:method="delete">
+            <div class="form-group">
+              <label th:text="'Hizo '+${mistake.mistake}+' y restó '+${mistake.points}+' puntos, en la mano '+${mistake.handNumber}"></label>
+              <button class="text-white btn btn-danger" type="submit">
+                Eliminar Mistake
+              </button>
+            </div>
+          </form>
+        </th:block>
+      </div>
+    </th:block>
+  </div>
+</body>
+</html>

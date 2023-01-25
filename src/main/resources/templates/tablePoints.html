@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <div th:replace="~{/components/style}"></div>
+  <title>Puntos</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-primary">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="" th:href="@{/}">Inicio</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="@{/game/getAll}">Juegos Guardados</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="'/game/'+${game.id}">Juego</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="'/game/'+${game.id}+'/mistake'">Mistake</a>
+    </li>
+
+  </ul>
+</nav>
+<div class="container text-center">
+  <div class="row">
+    <h1>Puntos</h1>
+    <button class="btn btn-success btn-excel" onclick="ExportToExcel('xlsx')">Exportar a Excel <span class="icon-file-excel"></span></button>
+    <table class="table table-bordered hover" id="point-table">
+      <thead class="bg-primary text-white">
+      <tr>
+        <th></th>
+        <th:block th:each="player : ${game.getPlayerList()}">
+          <th scope="col" colspan="3" >
+            <div class="table-title">
+              <p th:text="${player.name}"></p>
+              <a th:href="'/player/edit-name/'+${player.id}">
+                <span class="icon-pencil"></span>
+              </a>
+            </div>
+          </th>
+        </th:block>
+      </tr>
+      <tr>
+        <th scope="col">Mano</th>
+        <th:block th:each="player : ${game.getPlayerList()}">
+          <th>P</th>
+          <th>L</th>
+          <th>Pts</th>
+        </th:block>
+      </tr>
+      </thead>
+      <tbody>
+      <th:block th:each="i: ${#numbers.sequence(0,22)}">
+        <th:block th:if="${i==22}">
+          <tr class="table-success">
+            <th scope="row">Puntos</th>
+            <th:block th:each="player : ${game.getPlayerList()}">
+              <td th:text="${player.totalPoints}"  colspan="3"></td>
+            </th:block>
+          </tr>
+        </th:block>
+        <th:block th:if="${i==21}">
+          <tr class="table-danger">
+            <th scope="row">Mistake</th>
+            <th:block th:each="player : ${game.getPlayerList()}">
+              <td colspan="3" th:text="${player.mistakePoints}">
+              </td>
+            </th:block>
+          </tr>
+        </th:block>
+        <th:block th:if="${i<21}">
+          <tr th:class="${i>6 && i<14} ?'table-primary':''">
+            <th scope="row" th:text="${i+1}"></th>
+            <th:block th:if="${i<player.getHandDtoList().size()}" th:each="player : ${game.getPlayerList()}">
+              <td th:text="${player.getHandDtoList().get(i).predict != null} ? ${player.getHandDtoList().get(i).predict} : ''"></td>
+              <td th:text="${player.getHandDtoList().get(i).take != null} ? ${player.getHandDtoList().get(i).take} : ''"></td>
+              <td th:text="${player.getHandDtoList().get(i).points != null}?${player.getHandDtoList().get(i).points}:''"></td>
+            </th:block>
+            <th:block th:if="${i>=player.getHandDtoList().size()}" th:each="player : ${game.getPlayerList()}">
+            <td th:text="''"></td>
+            <td th:text="''"></td>
+            <td th:text="''"></td>
+        </th:block>
+          </tr>
+        </th:block>
+      </th:block>
+      </tbody>
+    </table>
+  </div>
+</div>
+<div th:replace="~{/components/script}"></div>
+</body>
+</html>

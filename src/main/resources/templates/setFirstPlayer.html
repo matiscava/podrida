@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <div th:replace="~{/components/style}"></div>
+  <title>Set First</title>
+</head>
+<body>
+<div class="container text-center">
+  <h1>Elija al primer jugador</h1>
+  <div class="d-flex flex-column justify-content-center align-items-center">
+    <form th:method="post" th:action="@{/game/setFirstPlayer}" th:object="${gameSetNextPlayer}">
+      <label for="inputJugador">Seleccione al Jugador:</label>
+      <select th:field="*{nextPlayer}" name="_jugador" id="inputJugador" class="form-control">
+        <option th:each="player:${playerList}" th:value="${playerStat.index}" th:text="${player.getName()}"></option>
+      </select>
+      <input type="hidden" name="gameId" th:value="${playerList[0].gameId}">
+      <input type="hidden" name="firstHand" value=true>
+      <button type="submit" class="btn btn-primary">Iniciar</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>
