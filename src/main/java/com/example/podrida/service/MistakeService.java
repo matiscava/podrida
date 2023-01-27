@@ -3,19 +3,24 @@ package com.example.podrida.service;
 import com.example.podrida.dto.mistake.MistakeDtoReq;
 import com.example.podrida.dto.mistake.MistakeDtoRes;
 import com.example.podrida.entity.Mistake;
+import com.example.podrida.entity.MistakesMade;
 import com.example.podrida.exception.IdNotFoundException;
 import com.example.podrida.mapper.MistakeMapper;
+import com.example.podrida.repository.IMistakeMadeRepository;
 import com.example.podrida.repository.IMistakeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 @Service
 public class MistakeService implements IMistakeService{
     final private IMistakeRepository mistakeRepository;
-    public MistakeService (IMistakeRepository mistakeRepository){
+    final private IMistakeMadeRepository mistakeMadeRepository;
+    public MistakeService (IMistakeRepository mistakeRepository, IMistakeMadeRepository mistakeMadeRepository){
         this.mistakeRepository = mistakeRepository;
+        this.mistakeMadeRepository = mistakeMadeRepository;
     }
     @Override
     public List<MistakeDtoRes> getAll() {
@@ -50,6 +55,12 @@ public class MistakeService implements IMistakeService{
     public void deleteById(Long id) {
         Optional<Mistake> m = mistakeRepository.findById(id);
         if(m.isPresent()) throw new IdNotFoundException("No existe el mistake ID: "+id+", verifique sus datos.");
+        m.get().getMistakesMade().forEach(
+                made -> {
+                    mistakeRepository.deleteById(made.getId());
+                }
+        );
+        m.get().getMistakesMade().clear();
         mistakeRepository.deleteById(id);
     }
 }

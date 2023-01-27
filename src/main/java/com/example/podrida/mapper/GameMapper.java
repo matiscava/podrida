@@ -1,12 +1,10 @@
 package com.example.podrida.mapper;
 
-import com.example.podrida.dto.game.GameDtoPoints;
-import com.example.podrida.dto.game.GameDtoReq;
-import com.example.podrida.dto.game.GameDtoRes;
-import com.example.podrida.dto.game.GameDtoViewName;
+import com.example.podrida.dto.game.*;
 import com.example.podrida.dto.player.PlayerDtoGamePoints;
 import com.example.podrida.dto.player.PlayerDtoRes;
 import com.example.podrida.entity.Game;
+import com.example.podrida.entity.Player;
 import com.example.podrida.utils.Utils;
 
 import java.util.ArrayList;
@@ -53,5 +51,28 @@ public class GameMapper {
         gameDto.setViewName(g.getViewName());
         System.out.println("gameDto = " + gameDto);
         return gameDto;
+    }
+
+    public static GameDtoGetAll convertEntityToGameDtoGetAll (Game g){
+        GameDtoGetAll gDto = new GameDtoGetAll();
+        gDto.setId(g.getId());
+        gDto.setTimestamp(Utils.convertDateToLocalDate(g.getTimestamp() ) );
+        String players = "";
+        List < Player> playerList = g.getPlayerList().stream().toList();
+        if (playerList.size() == 0){
+            players = "Sin jugadores";
+        } else {
+            for (int i = 0; i < playerList.size() ; i++ ){
+                if (i == playerList.size()-1){
+                    System.out.println("llege");
+                    players += playerList.get(i).getName()+".";
+                }else {
+                    System.out.println("llege al otro");
+                    players += playerList.get(i).getName()+", ";
+                }
+            }
+        }
+        gDto.setPlayerList(players);
+        return gDto;
     }
 }

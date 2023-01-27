@@ -35,7 +35,7 @@ public class GameController {
     @GetMapping("/getAll")
     public ModelAndView getAll(){
         ModelAndView modelAndView = new ModelAndView("gameList");
-        modelAndView.addObject( "gamesList",gameService.getAll());
+        modelAndView.addObject( "gamesList",gameService.getGameList());
         return modelAndView;
     }
     @GetMapping("/{id}")

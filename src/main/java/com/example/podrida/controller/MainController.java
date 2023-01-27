@@ -12,5 +12,6 @@ public class MainController {
     public ModelAndView getHome(){
         return new ModelAndView("home");
     }
-
+    @GetMapping("/rules")
+    public ModelAndView getRules() {return  new ModelAndView("rules"); }
 }

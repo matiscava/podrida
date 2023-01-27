@@ -28,7 +28,7 @@ public class Player {
     @ManyToOne
     @JoinColumn
     private Game game;
-    @OneToMany(mappedBy = "player",fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "player")
     private Set<MistakesMade> mistakesMadeList = new HashSet<>();
 
     @Override

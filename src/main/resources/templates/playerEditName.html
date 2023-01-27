@@ -6,10 +6,34 @@
   <meta name="viewport"
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <div th:replace="~{/components/style}"></div>
+  <div th:replace="components/style.html"></div>
   <title>Home</title>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg bg-primary">
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="" th:href="@{/}">Inicio</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="@{/game/getAll}">Juegos Guardados</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="@{'/game/'+${playerDto.gameId}}">Juego</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="@{'/game/'+${playerDto.gameId}+'/points'}">Puntos</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link text-white"
+         href="#" th:href="@{'/game/'+${playerDto.gameId}+'/mistake'}">Mistake</a>
+    </li>
+  </ul>
+</nav>
 <div class="container text-center">
   <div class="row">
     <h1 th:text="'Cambiar nombre del jugador '+${playerDto.id}"></h1>

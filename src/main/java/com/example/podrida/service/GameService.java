@@ -251,4 +251,13 @@ public class GameService implements IGameService{
         if(g.isEmpty()) throw new IdNotFoundException("No se encontró el juego con el ID: "+h.get().getPlayer().getGame().getId());
         return GameMapper.convertEntityToGameDtoViewName(g.get());
     }
+
+    @Override
+    public List<GameDtoGetAll> getGameList() {
+        List<Game> gameList = gameRepository.findAll();
+        List<GameDtoGetAll> gameDtoLists = new ArrayList<>();
+        gameList.forEach(g -> gameDtoLists.add( GameMapper.convertEntityToGameDtoGetAll(g) ) );
+
+        return gameDtoLists;
+    }
 }

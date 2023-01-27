@@ -21,4 +21,7 @@ public interface IGameService extends IBaseService<GameDtoRes, GameDtoReq>{
     GameDtoPoints getGamePoints(Long id);
     void goBack(Long id);
     GameDtoViewName getViewNameDto(Long id);
+    List<GameDtoGetAll> getGameList();
+
+
 }

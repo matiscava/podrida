@@ -1,0 +1,34 @@
+La podrida es un juego de naipes, que se juego con cartas de poker, consta de 21 manos, e reparte hacia la izuierda. y se juega de a 7 jugadores, aunque se puede jugar de menos pero no es lo recomendable.
+
+Modalidad de juego: 
+
+El juego se divide en 3 bloques de 7 manos, en el primer bloque se inicia repartiendo 1 carta a cada jugador, al terminar la primer mano se juega otra con 2 cartas, y se va sumando una carta por mano hasta llegar a 7. Luego se juegan 7 manos con 7 cartas y el ultimo bloque se inicia repartiendo 7 cartas a cada jugador, y se va restando una carta por mano hasta llegar a 1.
+
+Bases de juego: 
+
+El primer jugador de cada mano inicia el juego con una carta que tenga en su mano, de su elección. El palo que juegue ese jugador sera el que dominará la mano, el resto de los jugadores deben jugar si o si, ese mismo palo en caso de no poseerlo deben jugar un triunfo (más adelante se explicara su uso), y de no tener ninguno de esas dos opciones, puede jugar cualquier carta. 
+Cada jugador está obligado a matar la carta más alta que esté en juego, respentado el palo, de no poder matar deberá jugar el mismo palo, de no tener el palo deberá jugar el triunfo, obligado a matar si es que ya se jugó un triunfo anteriormente, en caso de no poder matar deberá jugar un triunfo y si no posee el palo ni tiene triunfo, recién ahí podra jugar cualquier carta.
+
+Triunfo:
+
+Tanto en el primer bloque como en el último, al finalizar de rapartir las cartas a cada jugador, se da vuelta una última carta que es consciderada como el triunfo. Durante esa mano el palo del triunfo pasa a ser el que mata al resto de los palos. Pero solo puede utilizarce cuando:
+ - La mano haya sido iniciada con el palo del triunfo. El famos "Larry".
+ - No posea el palo de inicio de la mano.
+
+A tener en cuenta: 
+En caso de que ya se haya jugado el triunfo, y yo tenga un triunfo y una carta con el palo, debo jugar el palo de la mano. 
+Si puedo matar con dos cartas, puedo elegir con cual matar, sin obligación de usar la más alta.
+Si no llego a matar pero tengo dos cartas del mismo palo, puedo elegir cual de las dos usar. 
+
+Predicción:
+Antes de iniciar cada mano, los jugadores podrán ver sus cartes y con esa información deberán predecir cuantas rondas ganarán en la mano. La predicción se da en el sentido de juego, iniciando con la mano y terminando con el que repartió. El mino a pedir es 0 y el maximo es la cantidad de cartas que se juegan en esa mano, por jugador. La única condición es que el que repartió al ser el último en predecir, no puede igualar el total de pedidas con la cantidad de cartas en juego. Por ejemplo: si cada jugador tiene 4 cartas y hasta el que repartió se han pedido 3 predicciones en total, el que repartío no puede decir que levantará 1 carta, puede pedir 0,2,3 o 4.
+
+Puntuación:
+Una vez terminada la mano se comparan la cantidad de cartas pedidas con la cantidad de veces que levantó cada jugador. Si igualó la cantidad, suma 10 puntos, y por cada vez que levantó suma 3 puntos más, en casó de haber diferencia entre la predicción y las que levantó se restarán 3 puntos por cada diferencia. Por ejemplo: si pidió 4 y se lleva 2 resta 6 puntos.
+
+Mistake: 
+Hay diferentes formas de descontar puntos por penalidades:
+- Repartir mal, ya sea cartas de más o de menos, u olvidar cartas cuando se juntó el mazo. Resta 10 puntos al que reparte.
+- Repartir cuando no me toca, resta 10 puntos.
+- No repartir cuando me toca, resta 10 puntos.
+- Jugar mal: Si yo tengo el palo de la mano y juego un triunfo u otro palo, o puedo matar pero juego una más baja o biceversa. Resta 20 puntos y se juega toda la mano de nuevo. 

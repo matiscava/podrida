@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <div th:replace="~{/components/style}"></div>
+    <div th:replace="components/style.html"></div>
     <title>Game List</title>
 </head>
 <body>
@@ -31,21 +31,23 @@
             <th colspan="4"> No hay juegos guardados</th>
         </th:block>
         <tr th:each="obj : ${gamesList}">
-            <th scope="row" th:text="${obj.getId()}"></th>
-            <td th:text="'Jugadores: '+${obj.getPlayerList().size()}"></td>
-            <td th:text="${obj.getTimestamp()}"></td>
-            <td style="display: flex; justify-content: space-evenly; align-items: center;">
-                <button type="button" class="btn btn-warning">
-                    <a class="text-white" th:href="'/game/'+${obj.getId()}">
-                        Continuar
-                    </a>
-                </button>
-                <form style="margin: 0px;" th:action="@{/game/delete}" th:method="delete">
-                    <input type="hidden" name="id" th:value="${obj.getId()}">
-                    <button class="text-white btn btn-danger" type="submit">
-                        Eliminar
+            <th scope="row" th:text="${obj.id}"></th>
+            <td th:text="${obj.playerList}"></td>
+            <td th:text="${obj.timestamp}"></td>
+            <td>
+                <div style="display: flex; justify-content: space-evenly; align-items: center;">
+                    <button type="button" class="btn btn-warning">
+                        <a class="text-white" th:href="'/game/'+${obj.getId()}">
+                            Continuar
+                        </a>
                     </button>
-                </form>
+                    <form style="margin: 0px; margin-left: 5px" th:action="@{/game/delete}" th:method="delete">
+                        <input type="hidden" name="id" th:value="${obj.getId()}">
+                        <button class="text-white btn btn-danger" type="submit">
+                            Eliminar
+                        </button>
+                    </form>
+                </div>
             </td>
         </tr>
         </tbody>
